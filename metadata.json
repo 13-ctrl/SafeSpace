@@ -1,0 +1,5 @@
+{
+  "name": "Safe Space",
+  "description": "A security-focused application featuring a password strength analyzer and a Caesar Cipher encryption system.",
+  "requestFramePermissions": []
+}
