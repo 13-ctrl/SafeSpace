@@ -1,7 +1,8 @@
 import { PasswordAnalyzer } from './components/PasswordAnalyzer';
 import { EncryptionTool } from './components/EncryptionTool';
+import { AesTool } from './components/AesTool';
 import { Logo } from './components/Logo';
-import { Lock, Terminal, Github } from 'lucide-react';
+import { Lock, Terminal, Github, ShieldCheck } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function App() {
@@ -48,7 +49,7 @@ export default function App() {
           </motion.div>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
+        <div className="grid lg:grid-cols-3 gap-8 items-start">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -66,8 +67,8 @@ export default function App() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <EncryptionTool />
@@ -76,6 +77,23 @@ export default function App() {
                 <Lock className="w-5 h-5 text-security-accent shrink-0" />
                 <p className="text-xs text-security-text/70 leading-relaxed">
                   The <span className="text-security-accent font-mono">Caesar Cipher</span> is a substitution cipher where each letter in the plaintext is replaced by a letter some fixed number of positions down the alphabet.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <AesTool />
+            <div className="mt-6 p-4 bg-violet-500/5 border border-violet-500/10 rounded-lg">
+              <div className="flex gap-3">
+                <ShieldCheck className="w-5 h-5 text-violet-400 shrink-0" />
+                <p className="text-xs text-security-text/70 leading-relaxed">
+                  <span className="text-violet-400 font-mono">AES-256-GCM</span> is a military-grade symmetric cipher with authenticated encryption. Your passphrase is never stored — a unique key is derived via{' '}
+                  <span className="text-violet-400 font-mono">PBKDF2</span> for every operation.
                 </p>
               </div>
             </div>
