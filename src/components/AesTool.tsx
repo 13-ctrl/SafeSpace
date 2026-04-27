@@ -30,8 +30,8 @@ export function AesTool() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-violet-500/10 rounded-lg">
-            <ShieldCheck className="w-6 h-6 text-violet-400" />
+          <div className="p-2 bg-security-accent/10 rounded-lg">
+            <ShieldCheck className="w-6 h-6 text-security-accent" />
           </div>
           <div>
             <h2 className="text-xl font-semibold tracking-tight">AES-256-GCM</h2>
@@ -48,7 +48,7 @@ export function AesTool() {
             className={cn(
               'px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-md transition-all',
               mode === 'encrypt'
-                ? 'bg-violet-500 text-white shadow-lg'
+                ? 'bg-security-accent text-white shadow-lg'
                 : 'text-security-muted hover:text-security-text',
             )}
           >
@@ -59,7 +59,7 @@ export function AesTool() {
             className={cn(
               'px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded-md transition-all',
               mode === 'decrypt'
-                ? 'bg-violet-500 text-white shadow-lg'
+                ? 'bg-security-accent text-white shadow-lg'
                 : 'text-security-muted hover:text-security-text',
             )}
           >
@@ -80,7 +80,7 @@ export function AesTool() {
               value={passphrase}
               onChange={(e) => setPassphrase(e.target.value)}
               placeholder="Enter a strong passphrase..."
-              className="w-full bg-security-bg border border-security-border rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-violet-500/40 transition-all font-mono text-sm"
+              className="w-full bg-security-bg border border-security-border rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-security-accent/40 transition-all font-mono text-sm"
             />
             <button
               type="button"
@@ -105,7 +105,7 @@ export function AesTool() {
                 ? 'Enter text to encrypt...'
                 : 'Paste Base64 ciphertext to decrypt...'
             }
-            className="w-full h-28 bg-security-bg border border-security-border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500/40 transition-all font-mono text-sm resize-none"
+            className="w-full h-28 bg-security-bg border border-security-border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-security-accent/40 transition-all font-mono text-sm resize-none"
           />
         </div>
 
@@ -125,7 +125,7 @@ export function AesTool() {
             <button
               onClick={handleCopy}
               disabled={!result}
-              className="flex items-center gap-1.5 text-xs font-mono text-violet-400 hover:text-violet-300 transition-colors disabled:opacity-40"
+              className="flex items-center gap-1.5 text-xs font-mono text-security-accent hover:text-violet-300 transition-colors disabled:opacity-40"
             >
               {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
               {copied ? 'Copied!' : 'Copy Result'}

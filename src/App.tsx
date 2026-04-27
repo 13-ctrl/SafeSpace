@@ -1,8 +1,10 @@
 import { PasswordAnalyzer } from './components/PasswordAnalyzer';
 import { EncryptionTool } from './components/EncryptionTool';
 import { AesTool } from './components/AesTool';
+import { RsaTool } from './components/RsaTool';
+import { StegoTool } from './components/StegoTool';
 import { Logo } from './components/Logo';
-import { Lock, Terminal, Github, ShieldCheck } from 'lucide-react';
+import { Lock, Terminal, Github, ShieldCheck, KeyRound, Image as ImageIcon } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function App() {
@@ -44,7 +46,7 @@ export default function App() {
               Advanced Security <span className="text-security-accent">Utilities</span>
             </h2>
             <p className="text-security-muted text-lg">
-              A professional-grade suite for analyzing password entropy and performing fundamental cryptographic operations.
+              A professional-grade suite for analyzing password entropy and performing fundamental cryptographic operations — including hybrid asymmetric encryption and LSB steganography.
             </p>
           </motion.div>
         </div>
@@ -88,17 +90,113 @@ export default function App() {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <AesTool />
-            <div className="mt-6 p-4 bg-violet-500/5 border border-violet-500/10 rounded-lg">
+            <div className="mt-6 p-4 bg-security-accent/5 border border-security-accent/10 rounded-lg">
               <div className="flex gap-3">
-                <ShieldCheck className="w-5 h-5 text-violet-400 shrink-0" />
+                <ShieldCheck className="w-5 h-5 text-security-accent shrink-0" />
                 <p className="text-xs text-security-text/70 leading-relaxed">
-                  <span className="text-violet-400 font-mono">AES-256-GCM</span> is a military-grade symmetric cipher with authenticated encryption. Your passphrase is never stored — a unique key is derived via{' '}
-                  <span className="text-violet-400 font-mono">PBKDF2</span> for every operation.
+                  <span className="text-security-accent font-mono">AES-256-GCM</span> is a military-grade symmetric cipher with authenticated encryption. Your passphrase is never stored — a unique key is derived via{' '}
+                  <span className="text-security-accent font-mono">PBKDF2</span> for every operation.
                 </p>
               </div>
             </div>
           </motion.div>
         </div>
+
+        {/* RSA Hybrid — full-width fourth module */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mt-8 grid lg:grid-cols-2 gap-8 items-start"
+        >
+          <RsaTool />
+
+          <div className="space-y-4">
+            <div className="p-5 bg-security-accent/5 border border-security-accent/15 rounded-xl">
+              <div className="flex gap-3">
+                <KeyRound className="w-5 h-5 text-security-accent shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-semibold text-security-accent mb-1">How Hybrid Encryption Works</p>
+                  <p className="text-xs text-security-text/70 leading-relaxed">
+                    <span className="text-security-accent font-mono">CRYPTO-V3</span> mirrors real-world TLS and PGP. A one-time{' '}
+                    <span className="text-security-accent font-mono">AES-256-GCM</span> session key is generated per message and encrypts the payload. That session key is then wrapped with the recipient&apos;s{' '}
+                    <span className="text-security-accent font-mono">RSA-2048 public key</span> — so only the private key holder can recover it.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-4 bg-security-card border border-security-border rounded-xl">
+                <p className="text-[10px] font-mono text-security-muted uppercase tracking-widest mb-2">Key Type</p>
+                <p className="text-sm font-semibold font-mono">RSA-OAEP</p>
+                <p className="text-xs text-security-muted mt-1">2048-bit modulus</p>
+              </div>
+              <div className="p-4 bg-security-card border border-security-border rounded-xl">
+                <p className="text-[10px] font-mono text-security-muted uppercase tracking-widest mb-2">Payload Cipher</p>
+                <p className="text-sm font-semibold font-mono">AES-256-GCM</p>
+                <p className="text-xs text-security-muted mt-1">12-byte random IV</p>
+              </div>
+              <div className="p-4 bg-security-card border border-security-border rounded-xl">
+                <p className="text-[10px] font-mono text-security-muted uppercase tracking-widest mb-2">Hash (OAEP)</p>
+                <p className="text-sm font-semibold font-mono">SHA-256</p>
+                <p className="text-xs text-security-muted mt-1">Mask generation</p>
+              </div>
+              <div className="p-4 bg-security-card border border-security-border rounded-xl">
+                <p className="text-[10px] font-mono text-security-muted uppercase tracking-widest mb-2">Engine</p>
+                <p className="text-sm font-semibold font-mono">Web Crypto API</p>
+                <p className="text-xs text-security-muted mt-1">Native browser</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Steganography — full-width fifth module */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="mt-8 grid lg:grid-cols-2 gap-8 items-stretch"
+        >
+          <div className="space-y-4">
+            <div className="p-5 bg-security-accent/5 border border-security-accent/15 rounded-xl">
+              <div className="flex gap-3">
+                <ImageIcon className="w-5 h-5 text-security-accent shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-semibold text-security-accent mb-1">Data Hiding & Steganography</p>
+                  <p className="text-xs text-security-text/70 leading-relaxed">
+                    <span className="text-security-accent font-mono">STEGO-01</span> uses the Least Significant Bit (LSB) technique. It modifies the lowest bit of the Red, Green, and Blue channels of an image to encode your secret text. Since it only changes pixel values by a maximum of 1 out of 255, the difference is completely invisible to the human eye.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-4 bg-security-card border border-security-border rounded-xl">
+                <p className="text-[10px] font-mono text-security-muted uppercase tracking-widest mb-2">Technique</p>
+                <p className="text-sm font-semibold font-mono">LSB Substitution</p>
+                <p className="text-xs text-security-muted mt-1">RGB channels</p>
+              </div>
+              <div className="p-4 bg-security-card border border-security-border rounded-xl">
+                <p className="text-[10px] font-mono text-security-muted uppercase tracking-widest mb-2">Capacity</p>
+                <p className="text-sm font-semibold font-mono">~3 bits / pixel</p>
+                <p className="text-xs text-security-muted mt-1">Excludes Alpha</p>
+              </div>
+              <div className="p-4 bg-security-card border border-security-border rounded-xl">
+                <p className="text-[10px] font-mono text-security-muted uppercase tracking-widest mb-2">Output Format</p>
+                <p className="text-sm font-semibold font-mono">Lossless PNG</p>
+                <p className="text-xs text-security-muted mt-1">Preserves pixels</p>
+              </div>
+              <div className="p-4 bg-security-card border border-security-border rounded-xl">
+                <p className="text-[10px] font-mono text-security-muted uppercase tracking-widest mb-2">Engine</p>
+                <p className="text-sm font-semibold font-mono">HTML5 Canvas</p>
+                <p className="text-xs text-security-muted mt-1">Client-side processing</p>
+              </div>
+            </div>
+          </div>
+          
+          <StegoTool />
+        </motion.div>
       </main>
     </div>
   );
