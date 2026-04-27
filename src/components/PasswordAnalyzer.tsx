@@ -1,12 +1,24 @@
 import React from 'react';
 import { usePasswordStrength } from '../hooks/usePasswordStrength';
 import { cn } from '../lib/utils';
-import { Shield, ShieldAlert, ShieldCheck, Info, Eye, EyeOff } from 'lucide-react';
+import { Shield, ShieldAlert, ShieldCheck, Info, Eye, EyeOff, Wand2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export function PasswordAnalyzer() {
   const { password, setPassword, result } = usePasswordStrength();
   const [showPassword, setShowPassword] = React.useState(false);
+
+  const generatePassword = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+    let newPassword = '';
+    const randomValues = new Uint32Array(20);
+    window.crypto.getRandomValues(randomValues);
+    for (let i = 0; i < 20; i++) {
+      newPassword += chars[randomValues[i] % chars.length];
+    }
+    setPassword(newPassword);
+    setShowPassword(true);
+  };
 
   const getScoreColor = (score: number) => {
     switch (score) {
@@ -62,6 +74,16 @@ export function PasswordAnalyzer() {
             className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-security-muted hover:text-security-text transition-colors"
           >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+          </button>
+        </div>
+        
+        <div className="flex justify-end -mt-3">
+          <button
+            onClick={generatePassword}
+            className="flex items-center gap-1.5 text-xs font-mono text-security-accent hover:text-security-accent/80 transition-colors"
+          >
+            <Wand2 className="w-3.5 h-3.5" />
+            Generate Strong Password
           </button>
         </div>
 

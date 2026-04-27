@@ -2,7 +2,7 @@
   <img width="1200" height="475" alt="SafeSpace Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 
   <h1>SafeSpace</h1>
-  <p><strong>A browser-based cryptography & password security toolkit</strong></p>
+  <p><strong>A comprehensive, browser-based cryptography & security toolkit</strong></p>
 
   ![React](https://img.shields.io/badge/React-19-61dafb?style=flat-square&logo=react)
   ![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178c6?style=flat-square&logo=typescript)
@@ -16,63 +16,69 @@
 
 ## What is SafeSpace?
 
-SafeSpace is an interactive, browser-based security toolkit that gives users hands-on access to real cryptographic tools — no installation, no account, no server. Everything runs locally inside the browser tab.
+SafeSpace is an interactive, browser-based security toolkit that gives users hands-on access to real cryptographic tools — no installation, no account, no server. Everything runs locally inside the browser tab, ensuring absolute privacy.
 
-It ships with three independent modules:
+It features a modern, responsive, cyan-themed "hacker" UI and ships with seven independent security modules:
 
 | Module | Algorithm | Purpose |
 |---|---|---|
-| 🔍 **Password Analyzer** | zxcvbn (Dropbox) | Real-time password strength & entropy analysis |
+| 🔍 **Password Analyzer** | zxcvbn / CSPRNG | Real-time strength scoring & secure password generation |
 | 🔐 **Caesar Cipher** | Classical substitution | Encrypt & decrypt text with a shift key |
 | 🛡️ **AES-256-GCM** | Web Crypto API | Military-grade symmetric encryption |
+| 🔑 **RSA Hybrid** | RSA-OAEP + AES-GCM | Asymmetric public/private key encryption |
+| 🖼️ **Steganography** | LSB Substitution | Hide text invisibly inside image pixels |
+| 🔢 **File Checksum** | SHA-256 / SHA-512 | Verify file integrity directly in memory |
+| 🛡️ **HMAC Signature** | HMAC-SHA256 | Prove data integrity and authenticity |
 
 ---
 
 ## Features
 
-### 🔍 Password Strength Analyzer
-- Real-time strength scoring (Very Weak → Very Strong) on every keystroke
-- Powered by **zxcvbn-ts** — simulates dictionary attacks, keyboard patterns, and fuzzy matching (Levenshtein distance)
-- Displays **estimated crack time** at 10 billion guesses/second (offline fast-hash attack)
-- Shows **entropy** as log₁₀ of the estimated guess count
-- Contextual **warnings** and **hardening suggestions** in plain language
-- Show/hide password toggle
+### 🔍 Password Analyzer & Generator (SAFE-SCAN-01)
+- Real-time strength scoring (Very Weak → Very Strong) powered by **zxcvbn-ts**.
+- Displays estimated crack time (offline fast-hash attack) and entropy.
+- **Cryptographically Secure Generator**: Generates 16-character strong passwords using `window.crypto.getRandomValues()`.
 
 ### 🔐 Caesar Cipher (CRYPTO-V1)
-- Adjustable shift key from 1–25 via an interactive slider
-- Real-time encrypt and decrypt with a single mode toggle
-- Handles mixed-case text; non-alphabetic characters pass through unchanged
-- One-click copy of the output
+- Interactive slider to adjust shift key (1–25).
+- Real-time text encoding and decoding.
 
 ### 🛡️ AES-256-GCM Encryption (CRYPTO-V2)
-- Full **AES-256-GCM** authenticated encryption using the browser's native **Web Crypto API**
-- Passphrase → key derivation via **PBKDF2** (100,000 iterations, SHA-256, random 16-byte salt)
-- Unique random **IV (12 bytes)** generated per encryption — identical inputs never produce the same ciphertext
-- Output is a self-contained **Base64 string** (salt + IV + ciphertext + auth tag)
-- **Authentication tag** verification on decrypt — tampered ciphertext is rejected, not silently corrupted
-- Show/hide passphrase toggle + 400ms debounce on async crypto operations
-- Animated error states for wrong passphrase or corrupted input
+- Native Web Crypto API implementation of **AES-256-GCM**.
+- Secure key derivation via **PBKDF2** (100,000 iterations, SHA-256, 16-byte random salt).
+- Unique 12-byte random IV for every operation prevents ciphertext duplication.
+- Outputs a self-contained Base64 string (`salt:iv:ciphertext`).
+
+### 🔑 RSA-OAEP Hybrid Encryption (CRYPTO-V3)
+- Mirrors real-world PGP and TLS architecture.
+- Generates a **2048-bit RSA** keypair in the browser.
+- Generates a random one-time AES session key to encrypt the payload.
+- Wraps (encrypts) the AES session key with the RSA Public Key.
+- Secure, lightning-fast asymmetric encryption.
+
+### 🖼️ LSB Steganography (STEGO-01)
+- Hides secret text inside the **Least Significant Bits (LSB)** of the Red, Green, and Blue channels of an image.
+- Uses HTML5 Canvas for pure client-side image processing.
+- Visually identical output saved as a lossless PNG to preserve the payload.
+
+### 🔢 File Checksum Generator (HASH-01)
+- Instantly generates **SHA-256** and **SHA-512** cryptographic hashes for any file.
+- Reads files entirely into memory (supports files up to 100MB).
+- Drag-and-drop UI with 1-click hash copying.
+
+### 🛡️ HMAC Signature (AUTH-01)
+- Real-time generation of Hash-based Message Authentication Codes.
+- Dual modes: **GENERATE** a signature from a payload + secret, or **VERIFY** an existing 64-character hex signature.
+- Strict validation ensures exact matches for message authenticity.
 
 ---
 
-## How It Works
+## Architecture & Layout
 
-```
-User Input
-    │
-    ├─► Password Analyzer
-    │       └── zxcvbn() → score, crack time, entropy, suggestions
-    │
-    ├─► Caesar Cipher
-    │       └── shift each letter by key → ciphertext  (reversible)
-    │
-    └─► AES-256-GCM
-            ├── PBKDF2(passphrase + random salt, 100k iterations) → 256-bit key
-            ├── crypto.subtle.encrypt(AES-GCM, key, IV, plaintext) → ciphertext
-            └── Base64(salt ‖ IV ‖ ciphertext) → portable output string
-```
-
-All computation happens **in the browser**. No data is sent to any server.
+The UI uses a completely dynamic layout powered by Tailwind CSS grid and Flexbox. 
+- It breaks down perfectly from a **3-column grid** on extra-large desktop monitors, to a **2-column grid** on laptops/tablets, down to a single column on mobile.
+- All module cards utilize `flex-wrap` and `items-stretch` to guarantee perfect vertical alignment and prevent UI collisions on narrow screens.
+- **Color System:** SafeSpace utilizes a unified dark cyan design system (`--color-security-accent`, `--color-security-bg`) for a cohesive, cyberpunk aesthetic.
 
 ---
 
@@ -86,7 +92,8 @@ All computation happens **in the browser**. No data is sent to any server.
 | Styling | Tailwind CSS v4 |
 | Animations | Motion (Framer Motion) |
 | Password Analysis | @zxcvbn-ts/core |
-| Encryption | Web Crypto API (native browser) |
+| Cryptography Engine | Web Crypto API (Native browser) |
+| Image Processing | HTML5 `<canvas>` API |
 | Icons | Lucide React |
 
 ---
@@ -96,23 +103,25 @@ All computation happens **in the browser**. No data is sent to any server.
 ```
 src/
 ├── lib/
-│   ├── utils.ts              # Class merging utility (clsx + tailwind-merge)
-│   └── aes.ts                # AES-256-GCM + PBKDF2 via Web Crypto API
+│   ├── utils.ts              # Class merging utility
+│   ├── aes.ts                # AES-256-GCM + PBKDF2 logic
+│   ├── rsa.ts                # RSA key generation & hybrid wrap/unwrap
+│   ├── stego.ts              # LSB canvas pixel manipulation
+│   ├── hash.ts               # File arrayBuffer hashing
+│   └── hmac.ts               # HMAC signing and verification
 │
 ├── hooks/
-│   ├── usePasswordStrength.ts  # zxcvbn integration & reactive state
-│   ├── useEncryption.ts        # Caesar cipher logic & state
-│   └── useAesEncryption.ts     # Async AES state, debounce, error handling
+│   ├── usePasswordStrength.ts  # zxcvbn integration
+│   ├── useEncryption.ts        # Caesar cipher state
+│   ├── useAesEncryption.ts     # Debounced AES state
+│   ├── useRsaEncryption.ts     # Keypair management & hybrid state
+│   ├── useSteganography.ts     # Image upload & hiding logic
+│   ├── useHasher.ts            # File drag-and-drop & hashing state
+│   └── useHmac.ts              # Debounced HMAC state
 │
-├── components/
-│   ├── Logo.tsx              # Brand logo
-│   ├── PasswordAnalyzer.tsx  # Module SAFE-SCAN-01
-│   ├── EncryptionTool.tsx    # Module CRYPTO-V1 (Caesar Cipher)
-│   └── AesTool.tsx           # Module CRYPTO-V2 (AES-256-GCM)
-│
-├── App.tsx                   # Root layout & 3-column module grid
-├── main.tsx                  # React DOM entry point
-└── index.css                 # Global design system & Tailwind theme tokens
+├── components/               # The 7 isolated UI Modules
+├── App.tsx                   # Root layout & responsive grid
+└── index.css                 # Global design system & theme tokens
 ```
 
 ---
@@ -139,23 +148,14 @@ npm run dev
 
 The app will be available at **http://localhost:3000**
 
-### Other scripts
-
-```bash
-npm run build    # Production build
-npm run preview  # Preview the production build locally
-npm run lint     # TypeScript type checking
-```
-
 ---
 
 ## Security Notes
 
-- **Zero data transmission** — no password, passphrase, or message is ever sent to a server
-- **Zero persistence** — nothing is written to localStorage, cookies, or any storage medium
-- **Standard algorithms** — AES-256, PBKDF2, and SHA-256 are NIST-approved and implemented through the browser's hardened Web Crypto API
-- **Fresh randomness** — a new salt and IV are generated for every AES encryption; the same message encrypted twice produces completely different ciphertext
-- **Authenticated encryption** — AES-GCM's authentication tag detects any tampering before decryption proceeds
+- **Zero data transmission** — no password, file, image, or message is ever sent to a server.
+- **Zero persistence** — nothing is written to localStorage, cookies, or any storage medium.
+- **Standard algorithms** — AES, RSA-OAEP, PBKDF2, and SHA-256 are NIST-approved and implemented through the browser's hardened Web Crypto API.
+- **Type Safety** — strict TypeScript assertions (`as BufferSource`) are enforced for all cryptographic payloads to ensure modern browser compatibility.
 
 ---
 

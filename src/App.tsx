@@ -3,8 +3,10 @@ import { EncryptionTool } from './components/EncryptionTool';
 import { AesTool } from './components/AesTool';
 import { RsaTool } from './components/RsaTool';
 import { StegoTool } from './components/StegoTool';
+import { HasherTool } from './components/HasherTool';
+import { HmacTool } from './components/HmacTool';
 import { Logo } from './components/Logo';
-import { Lock, Terminal, Github, ShieldCheck, KeyRound, Image as ImageIcon } from 'lucide-react';
+import { Lock, Terminal, ShieldCheck, KeyRound, Image as ImageIcon, Hash, Fingerprint } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function App() {
@@ -25,12 +27,6 @@ export default function App() {
               </div>
             </div>
           </div>
-          
-          <nav className="hidden md:flex items-center gap-6">
-            <button className="p-2 text-security-muted hover:text-security-text transition-colors">
-              <Github className="w-5 h-5" />
-            </button>
-          </nav>
         </div>
       </header>
 
@@ -51,13 +47,16 @@ export default function App() {
           </motion.div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 items-start">
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 items-stretch">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-col"
           >
-            <PasswordAnalyzer />
+            <div className="flex-1 flex flex-col [&>div]:flex-1">
+              <PasswordAnalyzer />
+            </div>
             <div className="mt-6 p-4 bg-security-accent/5 border border-security-accent/10 rounded-lg">
               <div className="flex gap-3">
                 <Info className="w-5 h-5 text-security-accent shrink-0" />
@@ -72,8 +71,11 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col"
           >
-            <EncryptionTool />
+            <div className="flex-1 flex flex-col [&>div]:flex-1">
+              <EncryptionTool />
+            </div>
             <div className="mt-6 p-4 bg-security-accent/5 border border-security-accent/10 rounded-lg">
               <div className="flex gap-3">
                 <Lock className="w-5 h-5 text-security-accent shrink-0" />
@@ -88,8 +90,11 @@ export default function App() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex flex-col"
           >
-            <AesTool />
+            <div className="flex-1 flex flex-col [&>div]:flex-1">
+              <AesTool />
+            </div>
             <div className="mt-6 p-4 bg-security-accent/5 border border-security-accent/10 rounded-lg">
               <div className="flex gap-3">
                 <ShieldCheck className="w-5 h-5 text-security-accent shrink-0" />
@@ -100,18 +105,16 @@ export default function App() {
               </div>
             </div>
           </motion.div>
-        </div>
-
-        {/* RSA Hybrid — full-width fourth module */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-8 grid lg:grid-cols-2 gap-8 items-start"
-        >
-          <RsaTool />
-
-          <div className="space-y-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex flex-col"
+          >
+            <div className="flex-1 flex flex-col [&>div]:flex-1">
+              <RsaTool />
+            </div>
+          <div className="mt-6 space-y-4">
             <div className="p-5 bg-security-accent/5 border border-security-accent/15 rounded-xl">
               <div className="flex gap-3">
                 <KeyRound className="w-5 h-5 text-security-accent shrink-0 mt-0.5" />
@@ -147,18 +150,21 @@ export default function App() {
                 <p className="text-sm font-semibold font-mono">Web Crypto API</p>
                 <p className="text-xs text-security-muted mt-1">Native browser</p>
               </div>
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* Steganography — full-width fifth module */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-8 grid lg:grid-cols-2 gap-8 items-stretch"
-        >
-          <div className="space-y-4">
+          {/* Steganography */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="flex flex-col"
+          >
+            <div className="flex-1 flex flex-col [&>div]:flex-1">
+              <StegoTool />
+            </div>
+            <div className="mt-6 space-y-4">
             <div className="p-5 bg-security-accent/5 border border-security-accent/15 rounded-xl">
               <div className="flex gap-3">
                 <ImageIcon className="w-5 h-5 text-security-accent shrink-0 mt-0.5" />
@@ -194,9 +200,48 @@ export default function App() {
               </div>
             </div>
           </div>
-          
-          <StegoTool />
-        </motion.div>
+          </motion.div>
+
+          {/* Module 6: Hasher */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+            className="flex flex-col"
+          >
+            <div className="flex-1 flex flex-col [&>div]:flex-1">
+              <HasherTool />
+            </div>
+            <div className="mt-6 p-4 bg-security-accent/5 border border-security-accent/10 rounded-lg">
+              <div className="flex gap-3">
+                <Hash className="w-5 h-5 text-security-accent shrink-0" />
+                <p className="text-xs text-security-text/70 leading-relaxed">
+                  Cryptographic <span className="text-security-accent font-mono">Hash Functions</span> (like SHA-256) are one-way mathematical algorithms that map data of any size to a fixed-size bit string. They are used to verify file integrity and digital signatures.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Module 7: HMAC */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="flex flex-col"
+          >
+            <div className="flex-1 flex flex-col [&>div]:flex-1">
+              <HmacTool />
+            </div>
+            <div className="mt-6 p-4 bg-security-accent/5 border border-security-accent/10 rounded-lg">
+              <div className="flex gap-3">
+                <Fingerprint className="w-5 h-5 text-security-accent shrink-0" />
+                <p className="text-xs text-security-text/70 leading-relaxed">
+                  An <span className="text-security-accent font-mono">HMAC</span> proves both data integrity and authenticity. It combines a cryptographic hash function with a secret cryptographic key, ensuring that a message has not been tampered with and was sent by someone holding the shared secret.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </main>
     </div>
   );
